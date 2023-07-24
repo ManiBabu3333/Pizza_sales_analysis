@@ -1,0 +1,95 @@
+create database pizza;
+select count(*) from `pizza_sales excel file`;
+select * from `pizza_sales excel file`;
+select pizza_id from `pizza_sales excel file`;
+Total Revenue :
+select 
+	  round(sum(total¬_price),0) as "Total Revenue" 
+	  from `pizza sales excel file`;
+
+Average Order Value:
+
+select distinct 
+                round(sum(total_price)/count(distinct order_id),0)
+                as "Average order value" 
+                from `pizza_sales excel file`;     
+ Total Pizzas Sold:
+ select 
+       sum(quantity) as "Total Pizzas sold" from `pizza_sales excel file`;
+Total Orders:
+select 
+         count(distinct order_id) as "Toatal Orders" from `pizza_sales excel file`;  
+Average Pizzas Sold:
+select 
+         round(sum(quantity)/  count(distinct order_id),0) as "Average Pizzas Sold" 
+         from `pizza_sales excel file`;   
+SELECT 
+    DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y'), '%W') AS "Order day", 
+    COUNT(DISTINCT order_id) AS "Number of Orders" 
+FROM 
+    `pizza_sales excel file`
+GROUP BY 
+    DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y'), '%W');
+SELECT 
+    HOUR(STR_TO_DATE(order_time, '%H:%i:%s')) AS "Order Hour",
+    COUNT(DISTINCT order_id) AS "Number of Orders"
+FROM 
+    `pizza_sales excel file`
+GROUP BY 
+    HOUR(STR_TO_DATE(order_time, '%H:%i:%s'));
+    
+select 
+	   pizza_category,
+       round(sum(total_price),0) as total_sales,
+	   round(sum(total_price) *100/(select sum(total_price) from `pizza_sales excel file`
+       where DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y'), '%m')=1),0) as "Percentage of total sales"
+from 
+       `pizza_sales excel file` 
+        where DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y'), '%m')=1
+        group by pizza_category;
+        
+select 
+	   pizza_size,
+       round(sum(total_price),0) as total_sales,
+	   round(sum(total_price) *100/(select sum(total_price) from `pizza_sales excel file`
+       where QUARTER(STR_TO_DATE(order_date, '%Y-%m-%d'))=1),0) as "Percentage of total sales"
+from 
+       `pizza_sales excel file` 
+        where QUARTER(STR_TO_DATE(order_date, '%Y-%m-%d'))=1
+        group by pizza_size;
+select pizza_category,
+       sum(quantity) as Total_Quantity      
+       from `pizza_sales excel file`
+       group by pizza_category
+       order by Total_Quantity desc;
+
+select
+	   pizza_name, 
+       sum(quantity) as Total_Quantity
+       from `pizza_sales excel file`
+       where DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y'), '%m')=5
+       group by pizza_name
+       order by sum(quantity) desc    
+       limit 5;
+       select
+	   pizza_name, 
+       sum(quantity) as Total_Quantity
+       from `pizza_sales excel file`
+       where DATE_FORMAT(STR_TO_DATE(order_date, '%m/%d/%Y'), '%m')=1
+       group by pizza_name
+       order by sum(quantity)    
+       limit 5;
+        
+
+        
+
+    
+
+  
+      
+      
+      
+         
+
+       
+
